@@ -1,6 +1,6 @@
 import sys
 
-instructions = ["COPY", "ADDI", "SUBI", "ANDI", "ORII", "NOTI", "XORI", "SFTL", "SFLR", "TEST", "JUMP"]# , "MARK"
+instructions = ["COPY", "ADDI", "SUBI", "ANDI", "ORII", "NOTI", "XORI", "SFTL", "SFLR", "TEST", "JUMP"]  # , "MARK"
 #                 "CONS"]
 marks = {}
 constants = {}
@@ -38,7 +38,7 @@ def getr(var: str):
     return d
 
 
-def cmp(code: list[str, ]):  # code compiler
+def cmp(code: list[str,]):  # code compiler
     global OPCODE, ARG1, ARG2, RESULT
     counter = 0
     for m in code:
@@ -48,6 +48,8 @@ def cmp(code: list[str, ]):  # code compiler
             setzero()
         if line[0] in instructions:
             counter += 1
+    if counter > 46 and not ma:
+        ext("Error: memory is full")
     for s in code:
         setzero()
         ign = False
@@ -94,7 +96,10 @@ def cmp(code: list[str, ]):  # code compiler
                 setzero()
                 constants[line[1]] = int(line[2])
         if not (OPCODE == zero and ARG1 == zero and ARG2 == zero and RESULT == zero) or ign:
-            inst.append(str((OPCODE, ARG1, ARG2, RESULT)))
+            inst.append(str((OPCODE, ARG1, ARG2, RESULT)).replace(",", " ").replace("(", " ").replace(")", " "))
+            if o != "":
+                o.write(str((OPCODE, ARG1, ARG2, RESULT)).replace(",", " ").replace("(", " ").replace(")", " "). \
+                        replace("'", " "))
             ign = False
 
 
@@ -124,7 +129,7 @@ def test(line: list[str, str, str, str]):
         RESULT = binrmv(marks[line[4]])
 
 
-def thrnums(line: list[str, ], operation: str):
+def thrnums(line: list[str,], operation: str):
     global OPCODE, ARG1, ARG2, RESULT
     OPCODE = codp(line[1], line[2]) + operation
     ARG1 = getvar(line[1])
@@ -154,7 +159,6 @@ def ext(err: str = ""):
 zero = getvar("0")
 one = "00000001"
 
-
 if len(sys.argv) == 1:  # if you just launch app
     print("ScrapCPU compiler. Usage: compiler.py [-ma][-o file]")
     print("-ma: memeory addon")
@@ -164,7 +168,7 @@ if len(sys.argv) == 1:  # if you just launch app
 
 if len(sys.argv) > 1:
     ma = False
-    otp = ""
+    o = ""
     count = 0
     arg = sys.argv[1:]
     for i in arg:
