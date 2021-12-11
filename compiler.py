@@ -58,7 +58,10 @@ def cmp(code: list[str,]):  # code compiler
         line = m.split()
         try:  # if line be blank []
             if line[0] == "MARK":
-                marks[line[1]] = counter
+                if len(line) == 3:
+                    marks[line[1]] = int(line[2])
+                else:
+                    marks[line[1]] = counter
                 setzero()
             if line[0] in instructions:
                 counter += 1
