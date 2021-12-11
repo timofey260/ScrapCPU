@@ -43,63 +43,71 @@ def cmp(code: list[str,]):  # code compiler
     counter = 0
     for m in code:
         line = m.split()
-        if line[0] == "MARK":
-            marks[line[1]] = counter
-            setzero()
-        if line[0] in instructions:
-            counter += 1
+        try:
+            if line[0] == "MARK":
+                marks[line[1]] = counter
+                setzero()
+            if line[0] in instructions:
+                counter += 1
+        except IndexError:
+            pass
     if counter > 46 and not ma:
         ext("Error: memory is full")
     for s in code:
         setzero()
         ign = False
         line = s.split()
-        match line[0]:
-            case "COPY":
-                OPCODE = f"{codp(line[1], '0')}000000"
-                ARG1 = getvar(line[1])
-                ARG2 = zero
-                RESULT = getr(line[2])
-            case "ADDI":
-                thrnums(line, "000000")
-            case "SUBI":
-                thrnums(line, "000001")
-            case "ANDI":
-                thrnums(line, "000010")
-            case "ORII":
-                thrnums(line, "000011")
-            case "NOTI":
-                thrnums(line, "000100")
-            case "XORI":
-                thrnums(line, "000101")
-            case "SFTL":
-                OPCODE = f"{codp(line[1], '0')}000110"
-                ARG1 = getvar(line[1])
-                ARG2 = zero
-                RESULT = getr(line[2])
-            case "SFTR":
-                OPCODE = f"{codp(line[1], '0')}000110"
-                ARG1 = getvar(line[1])
-                ARG2 = one
-                RESULT = getr(line[2])
-            case "TEST":
-                test(line)
-            case "NOPI":
-                setzero()
-                ign = True
-            case "JUMP":
-                OPCODE = "11100000"
-                ARG1 = zero
-                ARG2 = zero
-                RESULT = binrmv(marks[line[1]])
-            case "CONS":
-                setzero()
-                constants[line[1]] = int(line[2])
+        try:
+            match line[0]:
+                case "COPY":
+                    OPCODE = f"{codp(line[1], '0')}000000"
+                    ARG1 = getvar(line[1])
+                    ARG2 = zero
+                    RESULT = getr(line[2])
+                case "ADDI":
+                    thrnums(line, "000000")
+                case "SUBI":
+                    thrnums(line, "000001")
+                case "ANDI":
+                    thrnums(line, "000010")
+                case "ORII":
+                    thrnums(line, "000011")
+                case "NOTI":
+                    thrnums(line, "000100")
+                case "XORI":
+                    thrnums(line, "000101")
+                case "SFTL":
+                    OPCODE = f"{codp(line[1], '0')}000110"
+                    ARG1 = getvar(line[1])
+                    ARG2 = zero
+                    RESULT = getr(line[2])
+                case "SFTR":
+                    OPCODE = f"{codp(line[1], '0')}000110"
+                    ARG1 = getvar(line[1])
+                    ARG2 = one
+                    RESULT = getr(line[2])
+                case "TEST":
+                    test(line)
+                case "NOPI":
+                    setzero()
+                    ign = True
+                case "JUMP":
+                    OPCODE = "11100000"
+                    ARG1 = zero
+                    ARG2 = zero
+                    RESULT = binrmv(marks[line[1]])
+                case "CONS":
+                    setzero()
+                    constants[line[1]] = int(line[2])
+        except IndexError:
+            pass
         if not (OPCODE == zero and ARG1 == zero and ARG2 == zero and RESULT == zero) or ign:
             inst.append(str((OPCODE, ARG1, ARG2, RESULT)).replace(",", " ").replace("(", " ").replace(")", " "))
-            if o != "":
-                o.write(str((OPCODE, ARG1, ARG2, RESULT)).replace(",", " ").replace("(", " ").replace(")", " "). \
-                        replace("'", " "))
+            try:
+                o.write(str((OPCODE, ARG1, ARG2, RESULT)).replace(",", " ").replace("(", "").replace(")", ""). \
+                        replace("'", "") + "\n")
+            except:
+                pass
             ign = False
 
 
