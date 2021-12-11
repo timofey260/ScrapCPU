@@ -14,15 +14,23 @@ ARG1 = ""
 ARG2 = ""
 RESULT = ""
 
+bytelen = 8
+memorymax = 46
+
 
 def binrmv(dat: int):
     d = str(bin(dat)[2:])
-    while len(d) < 8:
+    while len(d) < bytelen:
         d = "0" + d
     return d
 
 
 def getvar(var: str):
+    if var[0] == "b":
+        d = var[1:]
+        while len(d) < bytelen:
+            d = "0" + d
+        return d
     if var in registers:
         return binrmv(registers.index(var))
     elif var in constants.keys():
@@ -32,26 +40,31 @@ def getvar(var: str):
 
 
 def getr(var: str):
-    d = binrmv(registers.index(var))
-    if d == "00001000":
-        d = "00000111"
+    if var[0] == "b":
+        d = var[1:]
+        while len(d) < bytelen:
+            d = "0" + d
+    else:
+        d = binrmv(registers.index(var))
+        if d == "00001000":
+            d = "00000111"
     return d
 
 
 def cmp(code: list[str,]):  # code compiler
-    global OPCODE, ARG1, ARG2, RESULT
-    counter = 0
-    for m in code:
+    global OPCODE, ARG1, ARG2, RESULT, c
+    counter = c  # add to counter argument -c num else add 0
+    for m in code:  # make marks
         line = m.split()
-        try:
+        try:  # if line be blank []
             if line[0] == "MARK":
                 marks[line[1]] = counter
                 setzero()
             if line[0] in instructions:
                 counter += 1
-        except IndexError:
+        except IndexError:  # if we see this error, we skip line
             pass
-    if counter > 46 and not ma:
+    if counter > memorymax and not ma:  # if memory is full
         ext("Error: memory is full")
     for s in code:
         setzero()
@@ -137,7 +150,7 @@ def test(line: list[str, str, str, str]):
         RESULT = binrmv(marks[line[4]])
 
 
-def thrnums(line: list[str,], operation: str):
+def thrnums(line: list[str, str, str, str], operation: str):
     global OPCODE, ARG1, ARG2, RESULT
     OPCODE = codp(line[1], line[2]) + operation
     ARG1 = getvar(line[1])
@@ -160,23 +173,29 @@ def codp(arg1: str, arg2: str):
 
 def ext(err: str = ""):
     print(err)
-    input()
     quit()
 
 
 zero = getvar("0")
 one = "00000001"
 
-if len(sys.argv) == 1:  # if you just launch app
-    print("ScrapCPU compiler. Usage: compiler.py [-ma][-o file]")
+
+def help():
+    print("ScrapCPU compiler. Usage: compiler.py [-ma][-o file][-c num][-h]")
     print("-ma: memeory addon")
     print("-o: output file")
+    print("-c: current counter position, default: 0")
+    print("-h: help")
     print("Arguments: file")
     ext()
+
+if len(sys.argv) == 1:  # if you just launch app
+    help()
 
 if len(sys.argv) > 1:
     ma = False
     o = ""
+    c = 0
     count = 0
     arg = sys.argv[1:]
     for i in arg:
@@ -185,6 +204,10 @@ if len(sys.argv) > 1:
                 ma = True
             case "-o":
                 o = open(arg[count + 1], "w")
+            case "-h":
+                help()
+            case "-h":
+                c = arg[count + 1]
         count += 1
 
     try:
