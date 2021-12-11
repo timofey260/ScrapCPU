@@ -108,7 +108,7 @@ def cmp(code: list[str,]):  # code compiler
                     OPCODE = "11100000"
                     ARG1 = zero
                     ARG2 = zero
-                    RESULT = binrmv(marks[line[1]])
+                    RESULT = jmp(line[1])
                 case "CONS":
                     setzero()
                     constants[line[1]] = int(line[2])
@@ -147,7 +147,14 @@ def test(line: list[str, str, str, str]):
                 OPCODE = f"{codp(line[1], line[3])}100110"
         ARG1 = getvar(line[1])
         ARG2 = getvar(line[3])
-        RESULT = binrmv(marks[line[4]])
+        RESULT = jmp(line[4])
+
+
+def jmp(code):
+    if code in marks.keys():
+        return binrmv(marks[code])
+    else:
+        return binrmv(code)
 
 
 def thrnums(line: list[str, str, str, str], operation: str):
