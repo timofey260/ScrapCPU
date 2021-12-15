@@ -5,7 +5,7 @@ my programmable CPU code compiler
 
 [TimCpu mini in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2682961616)
 
-Usage: compiler.py file [-o file][-ma][-c num][-v num]
+Usage: compiler.py file [-o file][-ma][-c num][-v num][-h]
 
 -o file: output code to file
 
@@ -14,5 +14,7 @@ Usage: compiler.py file [-o file][-ma][-c num][-v num]
 -c num: current counter position. default 0
 
 -v num: set TimCPU version (0 - original(default), 1 - mini)
+
+-h: help
 
 [Wiki](https://github.com/timofey260/ScrapCPU/wiki)
