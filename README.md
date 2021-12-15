@@ -3,7 +3,7 @@ my programmable CPU code compiler
 
 [TimCpu in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2677694057)
 
-Usage: compiler.py file [-o file][-ma]
+Usage: compiler.py file [-o file][-ma][-c num][-v num]
 
 -o file: output code to file
 
