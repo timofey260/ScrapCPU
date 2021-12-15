@@ -3,6 +3,8 @@ my programmable CPU code compiler
 
 [TimCpu in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2677694057)
 
+[TimCpu mini in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2682961616)
+
 Usage: compiler.py file [-o file][-ma][-c num][-v num]
 
 -o file: output code to file
