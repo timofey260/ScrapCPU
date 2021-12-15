@@ -227,7 +227,7 @@ if len(sys.argv) > 1:
                 o = open(arg[count + 1], "w")
             case "-h":
                 help()
-            case "-h":
+            case "-c":
                 c = arg[count + 1]
             case "-v":
                 match arg[count + 1]:
