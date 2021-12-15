@@ -9,6 +9,8 @@ Usage: compiler.py file [-o file][-ma]
 
 -ma: memory addon usage - increase code lines num to 255
 
+-c num: current counter position. default 0
+
 -v num: set TimCPU version (0 - original(default), 1 - mini)
 
 [Wiki](https://github.com/timofey260/ScrapCPU/wiki)
