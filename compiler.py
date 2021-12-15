@@ -4,7 +4,9 @@ instructions = ["COPY", "ADDI", "SUBI", "ANDI", "ORII", "NOTI", "XORI", "SFTL", 
 #                 "CONS"]
 marks = {}
 constants = {}
-registers = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "COUNTER", "INP", "OUT"]
+registers0 = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "COUNTER", "INP", "OUT"]
+registers1 = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "REG6", "REG7", "REG8", "REG9", "REG10", "REG11", "REG12", "REG13", "COUNTER", "INP", "OUT"]
+registers = registers0
 operators = ["=", "!=", "<", "<=", ">", ">="]
 inst = []
 stack = ""
@@ -45,9 +47,17 @@ def getr(var: str):
         while len(d) < bytelen:
             d = "0" + d
     else:
-        d = binrmv(registers.index(var))
-        if d == "00001000":
-            d = "00000111"
+        try:
+            d = binrmv(registers.index(var))
+            match str(registers):
+                case str(registers0):
+                    if d == "00001000":
+                        d = "00000111"
+                case str(registers1):
+                    if d == "00010000":
+                        d = "00001111"
+        except ValueError:
+            ext("Error: wrong TimCPU version!")
     return d
 
 
@@ -191,10 +201,11 @@ one = "00000001"
 
 
 def help():
-    print("ScrapCPU compiler. Usage: compiler.py [-ma][-o file][-c num][-h]")
+    print("ScrapCPU compiler. Usage: compiler.py [-ma][-o file][-c num][-v ver][-h]")
     print("-ma: memeory addon")
     print("-o: output file")
     print("-c: current counter position, default: 0")
+    print("-v: number of TimCPU version (0 - original(default), 1 - mini)")
     print("-h: help")
     print("Arguments: file")
     ext()
@@ -218,6 +229,12 @@ if len(sys.argv) > 1:
                 help()
             case "-h":
                 c = arg[count + 1]
+            case "-v":
+                match arg[count + 1]:
+                    case "0":
+                        registers = registers0
+                    case "1":
+                        registers = registers1
         count += 1
 
     try:
