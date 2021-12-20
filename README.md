@@ -15,7 +15,7 @@ Usage: compiler.py file [-o file][-ma][-c num][-v num][-h]
 
 -c num: current counter position. default 0
 
--v num: set TimCPU version (0 - original(default), 1 - mini)
+-v num: set TimCPU version (0 - original(default), 1 - mini, 2 - mega)
 
 -h: help
 
