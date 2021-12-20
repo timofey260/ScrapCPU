@@ -5,7 +5,12 @@ instructions = ["COPY", "ADDI", "SUBI", "ANDI", "ORII", "NOTI", "XORI", "SFTL", 
 marks = {}
 constants = {}
 registers0 = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "COUNTER", "INP", "OUT"]
-registers1 = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "REG6", "REG7", "REG8", "REG9", "REG10", "REG11", "REG12", "REG13", "COUNTER", "INP", "OUT"]
+registers1 = ["REG0", "REG1", "REG2", "REG3", "REG4", "REG5", "REG6", "REG7", "REG8", "REG9", "REG10", "REG11", "REG12",
+              "REG13", "COUNTER", "INP", "OUT"]
+registers2 = ["REG" + str(i) for i in range(30)]
+registers2.append("COUNTER")
+registers2.append("INP")
+registers2.append("OUT")
 registers = registers0
 operators = ["=", "!=", "<", "<=", ">", ">="]
 inst = []
@@ -56,6 +61,9 @@ def getr(var: str):
                 case str(registers1):
                     if d == "00010000":
                         d = "00001111"
+                case str(registers2):
+                    if d == "00100000":
+                        d = "00011111"
         except ValueError:
             ext("Error: wrong TimCPU version!")
     return d
@@ -99,7 +107,10 @@ def cmp(code: list[str,]):  # code compiler
                 case "ORII":
                     thrnums(line, "000011")
                 case "NOTI":
-                    thrnums(line, "000100")
+                    OPCODE = f"{codp(line[1], '0')}000100"
+                    ARG1 = getvar(line[1])
+                    ARG2 = zero
+                    RESULT = getr(line[2])
                 case "XORI":
                     thrnums(line, "000101")
                 case "SFTL":
@@ -205,10 +216,11 @@ def help():
     print("-ma: memeory addon")
     print("-o: output file")
     print("-c: current counter position, default: 0")
-    print("-v: number of TimCPU version (0 - original(default), 1 - mini)")
+    print("-v: number of TimCPU version (0 - original(default), 1 - mini, 2 - mega)")
     print("-h: help")
     print("Arguments: file")
     ext()
+
 
 if len(sys.argv) == 1:  # if you just launch app
     help()
@@ -235,6 +247,8 @@ if len(sys.argv) > 1:
                         registers = registers0
                     case "1":
                         registers = registers1
+                    case "2":
+                        registers = registers2
         count += 1
 
     try:
