@@ -1,7 +1,7 @@
 # ScrapCPU
 my programmable CPU code compiler
 
-[TimCpu original in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2677694057)
+[TimCpu original in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2678083620)
 
 [TimCpu mini in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2682961616)
 
