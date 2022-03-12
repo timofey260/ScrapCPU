@@ -73,7 +73,7 @@ if len(sys.argv) > 1:
     comp.cmp(text)
     if not comp.err:
         if int(m) == 1:
-            print("| num||  OPCODE  ||   ARG1   ||   ARG2   ||  RESULT  |")
+            print("| num||    OPCODE   ||  ARG1  ||  ARG2  ||    RESULT    |")
         else:
             print("|  OPCODE  ||   ARG1   ||   ARG2   ||  RESULT  |")
     else:
