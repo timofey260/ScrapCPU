@@ -84,6 +84,8 @@ def cmp(code: str):
     c = int(c)
     counter = c
     for m in code:
+        if m == '':
+            counter -= 1
         cl = m.split()
         arg = cl[0].upper()
         if arg in i_jmp.keys():
