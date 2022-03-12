@@ -109,7 +109,7 @@ def cmp(code: str):
         arg = cl[0].upper()
         if arg == cop:
             if len(cl) >= 3:
-                OPCODE = opc(0, cl[1], cl[2])
+                OPCODE = opc(0, cl[1], "0")
                 ARG1 = toarg(cl[1])
                 ARG2 = 0
                 RESULT = tob(cl[2])
