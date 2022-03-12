@@ -10,6 +10,7 @@ stack = ""
 rg = "REG"
 cop = "COPY"
 nop = "NOPE"
+wait = "WAIT"
 
 OPCODE = ""
 ARG1 = 0
@@ -116,6 +117,11 @@ def cmp(code: str):
         elif arg == nop:
             np = True
             OPCODE = tob(0)
+            ARG1 = 0
+            ARG2 = 0
+            RESULT = tob(0)
+        elif arg == wait:
+            OPCODE = tob(16)
             ARG1 = 0
             ARG2 = 0
             RESULT = tob(0)
