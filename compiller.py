@@ -72,7 +72,10 @@ if len(sys.argv) > 1:
     print("File found! Compiling...")
     comp.cmp(text)
     if not comp.err:
-        print("|  OPCODE  ||   ARG1   ||   ARG2   ||  RESULT  |")
+        if int(m) == 1:
+            print("| num||  OPCODE  ||   ARG1   ||   ARG2   ||  RESULT  |")
+        else:
+            print("|  OPCODE  ||   ARG1   ||   ARG2   ||  RESULT  |")
     else:
         print("!Error!")
     for i in comp.inst:
