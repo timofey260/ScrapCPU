@@ -1,5 +1,6 @@
 i_instructions = ["ADDI", "SUBI", "MULI", "DIVI", "EXPI", "ANDI", "ORII", "XORI", "NOTI"]
 i_jmp = {"CONS": 2, "MARK": 1, "JUMP": 1, "TEST": 4}  # 1 - const, 2 - mark, 3 - jump, 4 - test
+nj = ["CONS", "MARK"]
 marks = {}
 constants = {}
 registers0 = ["INP", "OUT"]
@@ -107,6 +108,8 @@ def cmp(code: str):
         RESULT = tob(0)
         cl = m.split()
         arg = cl[0].upper()
+        if arg in nj:
+            counter -= 1
         if arg == cop:
             if len(cl) >= 3:
                 OPCODE = opc(0, cl[1], "0")
@@ -156,7 +159,7 @@ def cmp(code: str):
                     print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                     err = True
         if np or not (OPCODE == tob(0) and ARG1 == 0 and ARG2 == 0 and RESULT == tob(0)):
-            inst.append("|%8s  ||%8d  ||%8d  || %8s |" % (OPCODE, ARG1, ARG2, RESULT))
+            inst.append("|%4s||%8s  ||%8d  ||%8d  || %8s |" % (counter, OPCODE, ARG1, ARG2, RESULT))
             np = False
             try:
                 o.write("%8s %8d %8d %8s\n" % (OPCODE, ARG1, ARG2, RESULT))
