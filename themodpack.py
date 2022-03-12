@@ -94,6 +94,7 @@ def cmp(code: str):
                         marks[cl[1]] = counter
                 if getar(arg) == 0:  # cons
                     constants[cl[1]] = int(cl[2])
+                    counter -= 1
         counter += 1
     counter = c
     for m in code:
