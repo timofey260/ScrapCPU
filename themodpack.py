@@ -14,9 +14,11 @@ nop = "NOPE"
 wait = "WAIT"
 
 OPCODE = ""
+OPCODEI = 0
 ARG1 = 0
 ARG2 = 0
 RESULT = ""
+RESULTI = 0
 
 bytelen = 8
 counter = 0
@@ -81,7 +83,8 @@ def eqtob(ar1, ar2, num):
 
 
 def cmp(code: str):
-    global OPCODE, ARG1, ARG2, RESULT, c, i_jmp, i_instructions, marks, constants, err, cop, rg, counter, np
+    global OPCODE, ARG1, ARG2, RESULT, c, i_jmp, i_instructions, marks, constants, err, cop, rg, counter, np, \
+        OPCODEI, RESULTI
     c = int(c)
     counter = c
     for m in code:
@@ -98,14 +101,17 @@ def cmp(code: str):
                         marks[cl[1]] = counter
                 if getar(arg) == 0:  # cons
                     constants[cl[1]] = int(cl[2])
-                    counter -= 1
         counter += 1
+        if arg in nj:
+            counter -=1
     counter = c
     for m in code:
         OPCODE = tob(0)
+        OPCODEI = int(OPCODE, 2)
         ARG1 = 0
         ARG2 = 0
         RESULT = tob(0)
+        RESULTI = 0
         cl = m.split()
         arg = cl[0].upper()
         if arg in nj:
@@ -113,29 +119,37 @@ def cmp(code: str):
         if arg == cop:
             if len(cl) >= 3:
                 OPCODE = opc(0, cl[1], "0")
+                OPCODEI = int(OPCODE, 2)
                 ARG1 = toarg(cl[1])
                 ARG2 = 0
                 RESULT = tob(cl[2])
+                RESULTI = int(RESULT, 2)
             else:
                 print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                 err = True
         elif arg == nop:
             np = True
             OPCODE = tob(0)
+            OPCODEI = int(OPCODE, 2)
             ARG1 = 0
             ARG2 = 0
             RESULT = tob(0)
+            RESULTI = int(RESULT, 2)
         elif arg == wait:
             OPCODE = tob(16)
+            OPCODEI = int(OPCODE, 2)
             ARG1 = 0
             ARG2 = 0
             RESULT = tob(0)
+            RESULTI = int(RESULT, 2)
         elif arg in i_instructions:
             if len(cl) >= 4:
                 OPCODE = opc(i_instructions.index(arg), cl[1], cl[2])
+                OPCODEI = int(OPCODE, 2)
                 ARG1 = toarg(cl[1])
                 ARG2 = toarg(cl[2])
                 RESULT = tob(cl[3])
+                RESULTI = int(RESULT, 2)
             else:
                 print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                 err = True
@@ -143,23 +157,27 @@ def cmp(code: str):
             if arg == list(i_jmp.keys())[2]:
                 if len(cl) - 1 >= list(i_jmp.values())[2]:
                     OPCODE = "11100000"
+                    OPCODEI = int(OPCODE, 2)
                     ARG1 = 0
                     ARG2 = 0
                     RESULT = tob(marks[cl[1]])
+                    RESULTI = int(RESULT, 2)
                 else:
                     print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                     err = True
             if arg == list(i_jmp.keys())[3]:
                 if len(cl) - 1 >= list(i_jmp.values())[3]:
                     OPCODE = eqtob(cl[1], cl[3], cl[2])
+                    OPCODEI = int(OPCODE, 2)
                     ARG1 = toarg(cl[1])
                     ARG2 = toarg(cl[3])
                     RESULT = tob(marks[cl[4]])
+                    RESULTI = int(RESULT, 2)
                 else:
                     print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                     err = True
         if np or not (OPCODE == tob(0) and ARG1 == 0 and ARG2 == 0 and RESULT == tob(0)):
-            inst.append("|%4s||%8s  ||%8d  ||%8d  || %8s |" % (counter, OPCODE, ARG1, ARG2, RESULT))
+            inst.append("|%4s||%8s(%3d)||%8d||%8d|| %8s(%3d)|" % (counter, OPCODE, OPCODEI, ARG1, ARG2, RESULT, RESULTI))
             np = False
             try:
                 o.write("%8s %8d %8d %8s\n" % (OPCODE, ARG1, ARG2, RESULT))
