@@ -97,29 +97,31 @@ def cmp(code: str):
     c = int(c)
     counter = c
     for m in code:
-        if m == '':
-            counter -= 1
         cl = m.split()
-        arg = cl[0].upper()
-        if arg in i_jmp.keys():
-            if len(cl) - 1 >= list(i_jmp.values())[list(i_jmp.keys()).index(arg)]:
-                if getar(arg) == 1:  # mark
-                    if len(cl) > 2:
-                        marks[cl[1]] = int(cl[2])
-                    else:
-                        marks[cl[1]] = counter
-                if getar(arg) == 0:  # cons
-                    constants[cl[1]] = int(cl[2])
+        if len(cl) > 0:
+            arg = cl[0].upper()
+            if arg in i_jmp.keys():
+                if len(cl) - 1 >= list(i_jmp.values())[list(i_jmp.keys()).index(arg)]:
+                    if getar(arg) == 1:  # mark
+                        if len(cl) > 2:
+                            marks[cl[1]] = int(cl[2])
+                        else:
+                            marks[cl[1]] = counter
+                    if getar(arg) == 0:  # cons
+                        constants[cl[1]] = int(cl[2])
+            if arg in nj:
+                counter -= 1
+        else:
+            counter -= 1
         counter += 1
-        if arg in nj:
-            counter -=1
     counter = c
     for m in code:
-        if m != "":
-            cl = m.split()
+        cl = m.split()
+        if len(cl) > 0:
             arg = cl[0].upper()
             if arg in nj:
                 counter -= 1
+                al(tob(0), 0, 0, tob(0))
             if arg == cop:
                 if len(cl) >= 3:
                     al(opc(0, cl[1], "0"), toarg(cl[1]), 0, tob(cl[2]))
@@ -149,9 +151,13 @@ def cmp(code: str):
                     else:
                         print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                         err = True
+        else:
+            counter -= 1
+            al(tob(0), 0, 0, tob(0))
         if np or not (OPCODE == tob(0) and ARG1 == 0 and ARG2 == 0 and RESULT == tob(0)):
             inst.append("|%4s||%8s(%3d)||%8d||%8d|| %8s(%3d)|" % (counter, OPCODE, OPCODEI, ARG1, ARG2, RESULT, RESULTI))
             np = False
+            ign = False
             try:
                 o.write("%8s %8d %8d %8s\n" % (OPCODE, ARG1, ARG2, RESULT))
             except:
