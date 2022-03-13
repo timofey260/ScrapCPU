@@ -82,6 +82,15 @@ def eqtob(ar1, ar2, num):
     return n
 
 
+def al(oc, a1, a2, re):
+    global OPCODE, ARG1, ARG2, RESULT, OPCODEI, RESULTI
+    OPCODE = oc
+    OPCODEI = int(OPCODE, 2)
+    ARG1 = a1
+    ARG2 = a2
+    RESULT = re
+    RESULTI = int(RESULT, 2)
+
 def cmp(code: str):
     global OPCODE, ARG1, ARG2, RESULT, c, i_jmp, i_instructions, marks, constants, err, cop, rg, counter, np, \
         OPCODEI, RESULTI
@@ -106,76 +115,40 @@ def cmp(code: str):
             counter -=1
     counter = c
     for m in code:
-        OPCODE = tob(0)
-        OPCODEI = int(OPCODE, 2)
-        ARG1 = 0
-        ARG2 = 0
-        RESULT = tob(0)
-        RESULTI = 0
-        cl = m.split()
-        arg = cl[0].upper()
-        if arg in nj:
-            counter -= 1
-        if arg == cop:
-            if len(cl) >= 3:
-                OPCODE = opc(0, cl[1], "0")
-                OPCODEI = int(OPCODE, 2)
-                ARG1 = toarg(cl[1])
-                ARG2 = 0
-                RESULT = tob(cl[2])
-                RESULTI = int(RESULT, 2)
-            else:
-                print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
-                err = True
-        elif arg == nop:
-            np = True
-            OPCODE = tob(0)
-            OPCODEI = int(OPCODE, 2)
-            ARG1 = 0
-            ARG2 = 0
-            RESULT = tob(0)
-            RESULTI = int(RESULT, 2)
-        elif arg == wait:
-            OPCODE = tob(16)
-            OPCODEI = int(OPCODE, 2)
-            ARG1 = 0
-            ARG2 = 0
-            RESULT = tob(0)
-            RESULTI = int(RESULT, 2)
-        elif arg in i_instructions:
-            if len(cl) >= 4:
-                OPCODE = opc(i_instructions.index(arg), cl[1], cl[2])
-                OPCODEI = int(OPCODE, 2)
-                ARG1 = toarg(cl[1])
-                ARG2 = toarg(cl[2])
-                RESULT = tob(cl[3])
-                RESULTI = int(RESULT, 2)
-            else:
-                print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
-                err = True
-        elif arg in list(i_jmp.keys()):
-            if arg == list(i_jmp.keys())[2]:
-                if len(cl) - 1 >= list(i_jmp.values())[2]:
-                    OPCODE = "11100000"
-                    OPCODEI = int(OPCODE, 2)
-                    ARG1 = 0
-                    ARG2 = 0
-                    RESULT = tob(marks[cl[1]])
-                    RESULTI = int(RESULT, 2)
+        if m != "":
+            cl = m.split()
+            arg = cl[0].upper()
+            if arg in nj:
+                counter -= 1
+            if arg == cop:
+                if len(cl) >= 3:
+                    al(opc(0, cl[1], "0"), toarg(cl[1]), 0, tob(cl[2]))
                 else:
                     print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                     err = True
-            if arg == list(i_jmp.keys())[3]:
-                if len(cl) - 1 >= list(i_jmp.values())[3]:
-                    OPCODE = eqtob(cl[1], cl[3], cl[2])
-                    OPCODEI = int(OPCODE, 2)
-                    ARG1 = toarg(cl[1])
-                    ARG2 = toarg(cl[3])
-                    RESULT = tob(marks[cl[4]])
-                    RESULTI = int(RESULT, 2)
+            elif arg == nop:
+                al(tob(0), 0, 0, tob(0))
+            elif arg == wait:
+                al(tob(16), 0, 0, tob(0))
+            elif arg in i_instructions:
+                if len(cl) >= 4:
+                    al(opc(i_instructions.index(arg), cl[1], cl[2]), toarg(cl[1]), toarg(cl[2]), tob(cl[3]))
                 else:
                     print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
                     err = True
+            elif arg in list(i_jmp.keys()):
+                if arg == list(i_jmp.keys())[2]:
+                    if len(cl) - 1 >= list(i_jmp.values())[2]:
+                        al("11100000", 0, 0, tob(marks[cl[1]]))
+                    else:
+                        print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
+                        err = True
+                if arg == list(i_jmp.keys())[3]:
+                    if len(cl) - 1 >= list(i_jmp.values())[3]:
+                        al(eqtob(cl[1], cl[3], cl[2]), toarg(cl[1]), toarg(cl[3]), tob(marks[cl[4]]))
+                    else:
+                        print("[" + str(counter) + "]: no additional arguments: " + str(4 - len(cl)))
+                        err = True
         if np or not (OPCODE == tob(0) and ARG1 == 0 and ARG2 == 0 and RESULT == tob(0)):
             inst.append("|%4s||%8s(%3d)||%8d||%8d|| %8s(%3d)|" % (counter, OPCODE, OPCODEI, ARG1, ARG2, RESULT, RESULTI))
             np = False
