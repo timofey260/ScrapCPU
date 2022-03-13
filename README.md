@@ -7,6 +7,8 @@ my programmable CPU code compiler
 
 [TimCpu mega in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2687909738)
 
+[TIMCpu The modpack 1 in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2778213942&searchtext=)
+
 ScrapCPU compiler. Usage: compiler.py file [-ma][-o file][-c num][-m sys][-v ver][-h]
 
 -ma: memeory addon
