@@ -3,7 +3,7 @@ import sys
 
 def ext(err: str = ""):
     print(err)
-    quit()
+    exec("")
 
 
 def _help():
