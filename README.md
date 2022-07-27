@@ -11,6 +11,8 @@ my programmable CPU code compiler
 
 [TIMCpu The modpack 2 in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2785897430)
 
+[TIMCpu mod in steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2807051228)
+
 ScrapCPU compiler. Usage: compiler.py file [-ma][-o file][-c num][-m sys][-v ver][-h]
 
 -ma: memeory addon
