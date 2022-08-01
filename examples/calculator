@@ -1,0 +1,30 @@
+CONS ADD 5 also i can place here any comments
+MARK START
+COPY 1 OUT ask for first number
+WAIT for user input
+COPY INP REG1 copy input to reg1
+COPY 2 OUT ask for operation
+WAIT
+COPY INP REG2 operation 1 - + 2 -- 3 -* 4 - /
+COPY 3 OUT ask for second number
+WAIT
+COPY INP REG3
+COPY 0 OUT
+TEST REG2 = 1 AD +
+TEST REG2 = 2 SB -
+TEST REG2 = 3 ML *
+TEST REG2 = 4 DV /
+JUMP START
+MARK AD
+ADDI REG1 REG3 REG4
+JUMP SOL
+MARK SB
+SUBI REG1 REG3 REG4
+JUMP SOL
+MARK ML
+MULI REG1 REG3 REG4
+JUMP SOL
+MARK DV
+DIVI REG1 REG3 REG4
+MARK SOL
+COPY REG4 OUT
