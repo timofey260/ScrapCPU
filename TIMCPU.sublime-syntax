@@ -1,0 +1,85 @@
+%YAML 1.2
+---
+file_extensions:
+  - tc
+  - timcpu
+scope: source.example-c
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - include: keywords
+    - include: marks
+    - include: cons
+    - include: binds
+    - include: commands
+    - include: test
+    - include: reti
+    - include: errors
+
+  keywords:
+    - match: '\b(CALL|JUMP)\b (\w+)'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.context.example-c markup.bold.example-c
+        2: string.other.example-c markup.italic.example-c
+  reti:
+    - match: '\b(RETI)\b'
+      scope: keyword.declaration.example-c
+  test:
+    - match: '\b(TEST) (\w+|-?[0-9.]+) (=|!=|<=|>=|<|>) (\w+|-?[0-9.]+) (\w+|\+?[0-9.]+)\b'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.context.example-c markup.bold.example-c
+        2: constant.numeric.example-c
+        3: keyword.operator.example-c
+        4: constant.numeric.example-c
+        5: string.other.example-c markup.italic.example-c
+  marks:
+    - match: '\b(MARK)\b (\w+)'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.control.example-c
+        2: string.other.example-c markup.underline.example-c markup.italic.example-c
+
+  cons:
+    - match: '(CONS) (\w+) (-?[0-9.]+)'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.context.example-c
+        2: string.example-c
+        3: constant.numeric.example-c
+  binds:
+    - match: '\b(BIND) (\w+) (REG(\d+)|INP(\d+)|OUT|\w+)'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.context.example-c
+        2: keyword.declaration.example-c
+        3: string.example-c
+        4: constant.numeric.example-c
+        5: constant.numeric.example-c
+  commands:
+    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) (-?\d+|\w+|REG\d+) ?(-?\d+|\w+|REG\d+)? ?(-?\d+|\w+|REG\d+)?'
+      scope: keyword.context.example-c
+      captures:
+        1: keyword.context.example-c markup.bold.example-c
+        2: keyword.declaration.example-c
+        3: string.example-c
+        4: constant.numeric.example-c
+    - match: 'WAIT'
+      scope: keyword.context.example-c markup.bold.example-c
+
+  comments:
+    - match: 'COMM \w+?|NOPE \w+?'
+      scope: punctuation.definition.comment.example-c
+      push:
+        - meta_scope: comment.line.double-slash.example-c
+        - match: $\n?
+          pop: true
+  errors:
+    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) ?'
+      scope: markup.underline.example-c markup.raw.example-c markup.error.example-c keyword.context.example-c
+    - match: '\b(TEST) (\w+)? ?(=|!=|<=|>=|<|>)? ?(\w+)? ?(\w+|\+?[0-9.]+)?\b'
+      scope: markup.underline.example-c markup.raw.example-c markup.error.example-c keyword.context.example-c
