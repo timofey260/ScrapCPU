@@ -61,7 +61,7 @@ contexts:
         4: constant.numeric.example-c
         5: constant.numeric.example-c
   commands:
-    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) (-?\d+|\w+|REG\d+) ?(-?\d+|\w+|REG\d+)? ?(-?\d+|\w+|REG\d+)?'
+    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) (-?[0-9.]+|\w+|REG\d+) ?(-?[0-9.]+|\w+|REG\d+)? ?(\-?[0-9.]+|\w+|REG\d+)?'
       scope: keyword.context.example-c
       captures:
         1: keyword.context.example-c markup.bold.example-c
@@ -72,7 +72,7 @@ contexts:
       scope: keyword.context.example-c markup.bold.example-c
 
   comments:
-    - match: 'COMM \w+?|NOPE \w+?'
+    - match: 'COMM|NOPE'
       scope: punctuation.definition.comment.example-c
       push:
         - meta_scope: comment.line.double-slash.example-c
