@@ -61,7 +61,7 @@ contexts:
         4: constant.numeric.example-c
         5: constant.numeric.example-c
   commands:
-    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) (-?[0-9.]+|\w+|REG\d+) ?(-?[0-9.]+|\w+|REG\d+)? ?(\-?[0-9.]+|\w+|REG\d+)?'
+    - match: '\b(SKIP|COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) (-?[0-9.]+|\w+|REG\d+) ?(-?[0-9.]+|\w+|REG\d+)? ?(\-?[0-9.]+|\w+|REG\d+)?'
       scope: keyword.context.example-c
       captures:
         1: keyword.context.example-c markup.bold.example-c
@@ -79,7 +79,7 @@ contexts:
         - match: $\n?
           pop: true
   errors:
-    - match: '\b(COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) ?'
+    - match: '\b(SKIP|COPY|ADDI|SUBI|MULI|DIVI|DVRI|EXPI|ANDI|ORII|NOTI|XORI|SLEP|PUSH|POPI|STLN|GETI|SLEN|CUTS|CUTE|ADDS|SRVS|RAND|ABSI|ACOS|ASIN|ATAN|ATN2|CEIL|COSI|COSH|DEGI|EXPO|FLOR|FMOD|FRXP|HUGE|LDXP|LOGI|LG10|MAXI|MINI|MODF|PIII|POWI|RADI|SINI|SINH|SQRT|TANI|TANH|ROND) ?'
       scope: markup.underline.example-c markup.raw.example-c markup.error.example-c keyword.context.example-c
     - match: '\b(TEST) (\w+)? ?(=|!=|<=|>=|<|>)? ?(\w+)? ?(\w+|\+?[0-9.]+)?\b'
       scope: markup.underline.example-c markup.raw.example-c markup.error.example-c keyword.context.example-c
